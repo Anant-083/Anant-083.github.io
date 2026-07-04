@@ -44,7 +44,6 @@ body{
 ::-webkit-scrollbar-track{background:var(--cream);}
 ::-webkit-scrollbar-thumb{background:var(--rule);border-radius:4px;}
 
-/* progress bar for page transitions */
 .page-progress{
   position:fixed;top:0;left:0;height:2px;background:var(--blue);
   z-index:2000;width:0%;transition:width 0.2s ease;
@@ -85,7 +84,6 @@ nav{
 .status-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;};}
 
-/* hamburger */
 .hamburger{
   display:none;flex-direction:column;gap:5px;
   width:44px;height:44px;align-items:center;justify-content:center;
@@ -205,15 +203,19 @@ nav{
 .meta-k{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.3rem;}
 .meta-v{font-size:0.85rem;font-weight:500;color:var(--ink2);}
 
-.big-initial{
-  font-family:'DM Serif Display',serif;
-  font-size:clamp(7rem,16vw,14rem);line-height:0.85;letter-spacing:-0.05em;
-  color:var(--ink);position:relative;z-index:1;
-  animation:floatUp 0.9s cubic-bezier(0.4,0,0.2,1) forwards;opacity:0;transform:translateY(30px);
+.profile-avatar{
+  width:min(65%,300px);
+  aspect-ratio:1/1;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid var(--ink);
+  box-shadow:0 12px 40px rgba(24,22,15,0.15);
+  position:relative;z-index:1;
   cursor:pointer;user-select:none;
+  animation:floatUp 0.9s cubic-bezier(0.4,0,0.2,1) forwards;
+  opacity:0;transform:translateY(30px);
 }
 @keyframes floatUp{to{opacity:1;transform:translateY(0);}}
-.big-initial em{font-style:italic;color:var(--ink2);}
 .home-right-sub{
   font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;
   color:var(--ink3);margin-top:1.5rem;position:relative;z-index:1;
@@ -454,7 +456,7 @@ nav{
   .home-hero{grid-template-columns:1fr;min-height:auto;}
   .home-divider{display:none;}
   .home-right{min-height:auto;padding:3rem 1.5rem;}
-  .big-initial{font-size:clamp(5rem,28vw,9rem);}
+  .profile-avatar{width:min(55%,220px);}
   .stats-bar{grid-template-columns:1fr 1fr;}
   .proj-grid{grid-template-columns:1fr;}
   .about-split{grid-template-columns:1fr;}
@@ -524,8 +526,8 @@ nav{
       <div class="ring ring1"></div>
       <div class="ring ring2"></div>
       <div class="ring ring3"></div>
-      <div class="big-initial" id="bigInitial" onclick="cycleInitial()" style="animation-delay:0.1s">A<em>P</em></div>
-      <div class="home-right-sub" id="initialSub">Developer · Builder · Student</div>
+      <img src="assets/profile.png" alt="Anant Paul" class="profile-avatar">
+      <div class="home-right-sub">Developer · Builder · Student</div>
       <div class="home-scroll-hint">
         <span class="scroll-arrow">↓</span>
         Scroll to explore
@@ -867,7 +869,7 @@ nav{
             </div>
             <span class="c-arrow">↗</span>
           </a>
-          <a href="https://linkedin.com/in/anant-paul-5852a333b" target="_blank" class="c-item">
+          <a href="https://linkedin.com/in/anant-paul/" target="_blank" class="c-item">
             <div class="c-item-left">
               <div class="c-icon">💼</div>
               <div><div class="c-type">LinkedIn</div><div class="c-val">linkedin.com/in/anant-paul</div></div>
@@ -890,13 +892,6 @@ nav{
 
 <script>
 const PAGE_ORDER = ['home','projects','about','education','contact'];
-const INITIAL_CYCLE = [
-  {big:'A<em>P</em>', sub:'Developer · Builder · Student'},
-  {big:'{ }', sub:'Python · Flask · Groq API'},
-  {big:'12+', sub:'Projects Shipped to Production'},
-  {big:'AI', sub:'LLM Integration · ML Pipelines'}
-];
-let cycleIndex = 0;
 let current = 'home';
 
 function toggleDrawer(force){
@@ -907,13 +902,6 @@ function toggleDrawer(force){
   drawer.classList.toggle('open', open);
   backdrop.classList.toggle('open', open);
   btn.classList.toggle('open', open);
-}
-
-function cycleInitial(){
-  cycleIndex = (cycleIndex + 1) % INITIAL_CYCLE.length;
-  const item = INITIAL_CYCLE[cycleIndex];
-  document.getElementById('bigInitial').innerHTML = item.big;
-  document.getElementById('initialSub').textContent = item.sub;
 }
 
 function goTo(id, skipHash) {
@@ -997,7 +985,6 @@ function animateStats(container){
   });
 }
 
-/* swipe navigation */
 let touchStartX = 0, touchStartY = 0;
 document.getElementById('app').addEventListener('touchstart', e => {
   touchStartX = e.touches[0].clientX;
